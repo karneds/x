@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  backend:
+    volumes:
+      - z-backend-vscode:/app/.vscode-server/extensions
+
+volumes:
+  z-backend-vscode:

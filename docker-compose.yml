@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+
+  web:
+    container_name: xweb
+    image: nginx:1.23-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/var/www
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    entrypoint: ["nginx-debug", "-g", "daemon off;"]
+    networks:
+      xweb:
+        aliases:
+          - x.not-real.ru
+
+  backend:
+    container_name: xbackend
+    build:
+      context: ./src
+      dockerfile: ./dockerfiles/Dockerfile
+      args:
+        - WITH_XDEBUG=true
+        - APP_ENV=${APP_ENV}
+    env_file: .env
+    volumes:
+      - ./src:/var/www:rw
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      xweb: 
+
+  postgres:
+    container_name: xpostgres
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - xpgdata:/var/lib/postgresql/data
+    networks:
+      xweb:
+
+
+networks:
+  xweb:
+
+volumes:
+  xpgdata:

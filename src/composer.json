@@ -1,0 +1,105 @@
+{
+    "name": "karneds/x",
+    "description": "",
+    "type": "project",
+    "license": "private",
+    "keywords": [
+        "laminas",
+        "mezzio",
+        "middleware",
+        "psr",
+        "psr-7",
+        "psr-11",
+        "psr-15"
+    ],
+    "homepage": "https://github.com/karneds/x",
+    "support": {
+        "docs": "https://github.com/karneds/x",
+        "issues": "https://github.com/karneds/x/issues",
+        "source": "https://github.com/karneds/x",
+        "rss": "https://github.com/karneds/x/releases.atom"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true,
+            "laminas/laminas-component-installer": true
+        },
+        "platform": {
+            "php": "8.2"
+        }
+    },
+    "extra": {
+        "laminas": {
+            "component-whitelist": [
+                "mezzio/mezzio",
+                "mezzio/mezzio-helpers",
+                "mezzio/mezzio-router",
+                "laminas/laminas-httphandlerrunner",
+                "mezzio/mezzio-fastroute"
+            ]
+        }
+    },
+    "require": {
+        "php": "~8.2",
+        "composer/package-versions-deprecated": "^1.10.99",
+        "doctrine/cache": "^1.13",
+        "doctrine/migrations": "^3.5",
+        "doctrine/orm": "^2.16",
+        "laminas/laminas-cli": "^1.8",
+        "laminas/laminas-component-installer": "^2.6 || ^3.0",
+        "laminas/laminas-config-aggregator": "^1.6",
+        "laminas/laminas-diactoros": "^2.24.2",
+        "laminas/laminas-servicemanager": "^3.4",
+        "laminas/laminas-stdlib": "^3.6",
+        "mezzio/mezzio": "^3.7",
+        "mezzio/mezzio-fastroute": "^3.0.3",
+        "mezzio/mezzio-helpers": "^5.7",
+        "mezzio/mezzio-problem-details": "^1.11",
+        "ramsey/uuid": "^4.7",
+        "ramsey/uuid-doctrine": "^2.0",
+        "roave/psr-container-doctrine": "^3.0",
+        "zircote/swagger-php": "^4.7"
+    },
+    "require-dev": {
+        "laminas/laminas-development-mode": "^3.3.0",
+        "phpunit/phpunit": "^9.5.11",
+        "mezzio/mezzio-tooling": "^2.8",
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App/src/",
+            "News\\": "src/News/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AppTest\\": "test/AppTest/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@development-enable"
+        ],
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "mezzio": "laminas --ansi",
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "clear-config-cache": "php bin/clear-config-cache.php",
+        "enable-codestandard": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S 0.0.0.0:8080 -t public/"
+        ],
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}
